@@ -1,27 +1,6 @@
-# React + TypeScript + Vite
+# 制御コンポーネントと非制御コンポーネントの復習
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+以前、個人開発していたアプリのフォーム作成にFormikというライブラリを使っていたのですが、これをReact Hook Formに置き換えました。置き換えたのは、制御コンポーネントを採用しているFormikと比べて、React Hook Formの方が非制御コンポーネントを採用しているため、パフォーマンスがいいと書いてあるサイトが多かったからです。(入力値の状態をstateではなく、DOMで管理しているため、再レンダリングが発生しない分、パフォーマンスがいいということだと認識しています。)そこで、このコードでは制御コンポーネントと非制御コンポーネントの違いについて復習するために、簡単なフォームを制御コンポーネントと非制御コンポーネントで作成し、再レンダリング回数を比べてみました。
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 感想
+このコードではユーザーの入力値を、制御コンポーネントではuseStateで(詳細なコードはcomponentsフォルダ配下のControlledForm.tsxファイル参照)、非制御コンポーネントではuseRefで(詳細なコードはcomponentsフォルダ配下のUnControlledForm.tsxファイル参照)管理しています。想定通り、useRefを使った非制御コンポーネントのフォームはいくら入力値を変えても再レンダリングが起こらなかった一方、useStateを使った制御コンポーネントのフォームの方は入力値が変わるごとに再レンダリングが走ります。このことから、制御コンポーネントより非制御コンポーネントを採用している方がパフォーマンスの面では望ましいということが分かりました。
